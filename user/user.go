@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/go-park-mail-ru/2018_2_LSP/utils"
+	"github.com/go-park-mail-ru/2018_2_LSP_AUTH/utils"
 
 	jwt "github.com/dgrijalva/jwt-go"
 )

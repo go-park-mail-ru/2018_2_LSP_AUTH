@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/go-park-mail-ru/2018_2_LSP/user"
+	"github.com/go-park-mail-ru/2018_2_LSP_AUTH/user"
 	"github.com/thedevsaddam/govalidator"
 )
 
