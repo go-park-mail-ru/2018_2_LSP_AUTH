@@ -5,9 +5,10 @@ before_script:
 - sudo apt-get install -qq sshpass
 script: 
 after_success:
-- sshpass -p $SSH_PASS scp -rp -o stricthostkeychecking=no * $SSH_USER@$SSH_HOST:~/server/
+- sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST rm ~/server/auth
+- sshpass -p $SSH_PASS scp -rp -o stricthostkeychecking=no * $SSH_USER@$SSH_HOST:~/server/auth
 - sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST docker
-  build -t auth-server ~/server/
+  build -t auth-server ~/server/auth
 - sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST docker
   stop auth
 - sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST docker
