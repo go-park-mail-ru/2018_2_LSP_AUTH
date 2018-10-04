@@ -55,6 +55,7 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		switch e := err.(type) {
 		case StatusData:
+			w.WriteHeader(e.Status())
 			jsonData, _ := e.GetJsonData()
 			w.Write(jsonData)
 		default:

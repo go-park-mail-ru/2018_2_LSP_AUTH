@@ -89,9 +89,9 @@ func extractFields(u user.User, fieldsToReturn []string) map[string]string {
 		case "lastname":
 			answer["lastname"] = u.LastName
 		case "email":
-			answer["firstname"] = u.Email
+			answer["email"] = u.Email
 		case "username":
-			answer["firstname"] = u.Username
+			answer["username"] = u.Username
 		}
 	}
 	return answer
