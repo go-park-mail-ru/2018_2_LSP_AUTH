@@ -3,8 +3,6 @@ package user
 import (
 	"database/sql"
 	"errors"
-	"fmt"
-	"os"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
@@ -82,7 +80,6 @@ func (u *User) generateToken() error {
 		"id":        u.ID,
 		"generated": time.Now(),
 	})
-	u.Token, err = token.SignedString([]byte(os.Getenv("JWT")))
-	fmt.Println(os.Getenv("JWT"))
+	u.Token, err = token.SignedString([]byte("abcderfs334f34r3we34"))
 	return err
 }
