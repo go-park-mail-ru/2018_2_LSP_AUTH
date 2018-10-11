@@ -20,11 +20,12 @@ type User struct {
 	Username  string `json:"username"`
 	FirstName string `json:"firstname"`
 	LastName  string `json:"lastname"`
+	Avatar    string `json:"avatar"`
 }
 
 // Auth Function that authenticates user
 func (u *User) Auth(db *sql.DB, email string, password string) error {
-	rows, err := db.Query("SELECT id, username, email, firstname, lastname, password FROM users WHERE email = $1 LIMIT 1", email)
+	rows, err := db.Query("SELECT id, username, email, firstname, lastname, rating, avatar, password FROM users WHERE email = $1 LIMIT 1", email)
 	if err != nil {
 		return err
 	}
@@ -34,8 +35,21 @@ func (u *User) Auth(db *sql.DB, email string, password string) error {
 		return errors.New("User not found")
 	}
 
-	if err := rows.Scan(&u.ID, &u.Username, &u.Email, &u.FirstName, &u.LastName, &u.Password); err != nil {
+	var firstname sql.NullString
+	var lastname sql.NullString
+	var avatar sql.NullString
+	err = rows.Scan(&u.ID, &u.Username, &u.Email, &firstname, &lastname, &u.Rating, &avatar)
+	if err != nil {
 		return err
+	}
+	if temp, err := firstname.Value(); temp != nil && err == nil {
+		u.FirstName = temp.(string)
+	}
+	if temp, err := lastname.Value(); temp != nil && err == nil {
+		u.LastName = temp.(string)
+	}
+	if temp, err := avatar.Value(); temp != nil && err == nil {
+		u.Avatar = temp.(string)
 	}
 
 	if !validatePassword(u.Password, password) {

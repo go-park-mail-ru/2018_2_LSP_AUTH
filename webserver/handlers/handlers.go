@@ -53,7 +53,7 @@ func PostHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 	rules := govalidator.MapData{
 		"email":    []string{"required", "between:4,25", "email"},
 		"password": []string{"required", "alpha_space"},
-		"fields":   []string{"fields:username,email,firstname,lastname"},
+		"fields":   []string{"fields:username,email,firstname,lastname,rating,id,avatar"},
 	}
 
 	opts := govalidator.Options{
