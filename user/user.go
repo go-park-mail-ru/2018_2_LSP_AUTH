@@ -3,6 +3,7 @@ package user
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"os"
 	"time"
 
@@ -82,5 +83,6 @@ func (u *User) generateToken() error {
 		"generated": time.Now(),
 	})
 	u.Token, err = token.SignedString([]byte(os.Getenv("JWT")))
+	fmt.Println(os.Getenv("JWT"))
 	return err
 }
