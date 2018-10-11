@@ -3,6 +3,7 @@ package user
 import (
 	"database/sql"
 	"errors"
+	"os"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
@@ -21,6 +22,7 @@ type User struct {
 	FirstName string `json:"firstname"`
 	LastName  string `json:"lastname"`
 	Avatar    string `json:"avatar"`
+	Rating    int    `json:"rating"`
 }
 
 // Auth Function that authenticates user
@@ -79,6 +81,6 @@ func (u *User) generateToken() error {
 		"id":        u.ID,
 		"generated": time.Now(),
 	})
-	u.Token, err = token.SignedString([]byte("HeAdfasdf3ref&^%$Dfrtgauyhia"))
+	u.Token, err = token.SignedString([]byte(os.Getenv("JWT")))
 	return err
 }

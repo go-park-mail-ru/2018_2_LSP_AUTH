@@ -79,20 +79,3 @@ func PostHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 
 	return StatusData{http.StatusOK, answer}
 }
-
-func extractFields(u user.User, fieldsToReturn []string) map[string]string {
-	answer := map[string]string{}
-	for _, f := range fieldsToReturn {
-		switch f {
-		case "firstname":
-			answer["firstname"] = u.FirstName
-		case "lastname":
-			answer["lastname"] = u.LastName
-		case "email":
-			answer["email"] = u.Email
-		case "username":
-			answer["username"] = u.Username
-		}
-	}
-	return answer
-}
