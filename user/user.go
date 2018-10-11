@@ -40,7 +40,7 @@ func (u *User) Auth(db *sql.DB, email string, password string) error {
 	var firstname sql.NullString
 	var lastname sql.NullString
 	var avatar sql.NullString
-	err = rows.Scan(&u.ID, &u.Username, &u.Email, &firstname, &lastname, &u.Rating, &avatar)
+	err = rows.Scan(&u.ID, &u.Username, &u.Email, &firstname, &lastname, &u.Rating, &avatar, &u.Password)
 	if err != nil {
 		return err
 	}
