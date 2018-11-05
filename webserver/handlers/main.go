@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"go.uber.org/zap"
 )
 
 // StatusData represents an error with an associated HTTP status code.
@@ -30,11 +32,8 @@ func (se StatusData) Status() int {
 
 // A (simple) example of our application-wide configuration.
 type Env struct {
-	DB       *sql.DB
-	Host     string
-	Database string
-	Username string
-	Password string
+	DB     *sql.DB
+	Logger *zap.SugaredLogger
 }
 
 // HandlerFunc func for Handler

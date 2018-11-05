@@ -4,21 +4,22 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/go-park-mail-ru/2018_2_LSP_AUTH/webserver/handlers"
 	"github.com/go-park-mail-ru/2018_2_LSP_AUTH/webserver/routes"
+
+	zap "go.uber.org/zap"
 )
 
 // Run Run webserver on specified port (passed as string the
 // way regular http.ListenAndServe works)
 func Run(addr string, db *sql.DB) {
+	logger, _ := zap.NewProduction()
+	defer logger.Sync()
+	sugar := logger.Sugar()
 	env := &handlers.Env{
-		DB:       db,
-		Host:     os.Getenv("DB_HOST"),
-		Database: os.Getenv("DB_DB"),
-		Username: os.Getenv("DB_USER"),
-		Password: os.Getenv("DB_PASSWORD"),
+		DB:     db,
+		Logger: sugar,
 	}
 
 	handlersMap := routes.Get()

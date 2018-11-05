@@ -69,6 +69,11 @@ func PostHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 
 	var u user.User
 	if err := u.Auth(env.DB, payload.Email, payload.Password); err != nil {
+		payload.Password = ""
+		env.Logger.Infow("Can't auth user",
+			"error", err,
+			"user", u,
+		)
 		return StatusData{http.StatusBadRequest, map[string]string{"error": err.Error()}}
 	}
 
