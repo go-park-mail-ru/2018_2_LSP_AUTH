@@ -12,8 +12,8 @@ after_success:
 - sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST docker
   stop auth
 - sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST docker
-  run -e "DB_HOST=postgres" -e "DB_USER=$DB_USER" -e "DB_PASS=$DB_PASS" -e "DB_DB=$DB_DB"
-  -e "JWT=$JWT" -d --link postgres:postgres --publish 6060:8080 --name auth --rm auth-server
+  run -e "DB_HOST=postgres" -e "DB_USER=$DB_USER" -e "JWT_TOKEN=$JWT_TOKEN" -e "DB_PASS=$DB_PASS" -e "DB_DB=$DB_DB"
+  -d --link postgres:postgres --publish 6060:8080 --name auth --rm auth-server
 env:
   global:
   - secure: TALlCOGXUjc+824U6UKQOpxNZfKXstgQMiHw5O55p/kFNJ8cwCHFwp7YT8QALh8KxC2OW/paYf6VPFJgsD/eojoQCFJ99MayYh56pllRPdBF78h0/aihSNo5zUj0Jwtkn+M/h2qvpGarcIyZ/4c5QTnXKjAwNai6kRDmW0Xq0K/X1ftf8pnsYbYiftehOXwqJR6eToQ6NZnXuMjpj4SlqaBQf9eQ7SCKelS75uXTJEWOUXUHnxRD6kz0ZjqorrUEQ/tLbd+E6dBd7Dlr/S6pE0fbnOa/0Dwo0+zFPwYDlQa0DOiJGaiAFsfSGqW28iWSFEcnA1xN1ejRgBEGzIT5I1Fv/7XBXGdlL1ckQMb++qRTq/mLWke8Sffb/WK88Cld5V6dB7fEpxBubkLcSGTAjOLkeR/6MDQqMYnWeMSt8GXT86tQGSotz40rCHBS4CwLQOoOgNwNBP2sNCyQisapy8D1HTMnECy4pmD/tDp2MCvjh62M/gDeMELu7ZM2Xl2hIFbjyVgvQOIUMnwszCjkOhiUg7pTVZa1r9mldMaWWnyWdb3E8tQhHXEWAPHbZ9l13mxUXbyulM4lke2WXEXD9r7jY+pfjJGSJToFMeVzoMKJwwhkn4a6b5li8yt+2GE8CmDF+sg70pIRNB3Vy3B7bhmDR5S7TWx7DiCMKPVCsx4=
