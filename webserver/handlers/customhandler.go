@@ -16,22 +16,22 @@ type StatusData struct {
 	Data interface{}
 }
 
-// Allows StatusData to satisfy the error interface.
+// Error allows StatusData to satisfy the error interface.
 func (sd StatusData) Error() string {
 	return fmt.Sprintf("%v", sd.Data)
 }
 
-// Allows StatusData to satisfy the error interface.
-func (sd StatusData) GetJsonData() ([]byte, error) {
+// GetJSONData allows StatusData to satisfy the error interface.
+func (sd StatusData) GetJSONData() ([]byte, error) {
 	return json.Marshal(sd.Data)
 }
 
-// Returns our HTTP status code.
+// Status returns our HTTP status code.
 func (se StatusData) Status() int {
 	return se.Code
 }
 
-// A (simple) example of our application-wide configuration.
+// Env hold env
 type Env struct {
 	Logger   *zap.SugaredLogger
 	GRCPUser *grpc.ClientConn
@@ -41,6 +41,7 @@ type Env struct {
 // HandlerFunc func for Handler
 type HandlerFunc func(e *Env, w http.ResponseWriter, r *http.Request) error
 
+// HandlersMap map of handlers
 type HandlersMap map[string]HandlerFunc
 
 // The Handler struct that takes a configured Env and a function matching
@@ -57,7 +58,7 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		switch e := err.(type) {
 		case StatusData:
 			w.WriteHeader(e.Status())
-			jsonData, _ := e.GetJsonData()
+			jsonData, _ := e.GetJSONData()
 			w.Write(jsonData)
 			httpReqs.WithLabelValues(strconv.Itoa(e.Status()), r.Method).Inc()
 		default:

@@ -8,15 +8,6 @@ import (
 	"github.com/go-park-mail-ru/2018_2_LSP_USER_GRPC/user_proto"
 )
 
-func contains(s []string, e string) bool {
-	for _, a := range s {
-		if a == e {
-			return true
-		}
-	}
-	return false
-}
-
 func extractFields(u user_proto.User, fieldsToReturn []string) map[string]interface{} {
 	answer := map[string]interface{}{}
 	for _, f := range fieldsToReturn {
