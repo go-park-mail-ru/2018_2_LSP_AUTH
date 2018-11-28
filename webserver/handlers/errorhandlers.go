@@ -12,7 +12,7 @@ func handleGeneralGrpcError(env *Env, err error) error {
 	case codes.OK:
 		return nil
 	case codes.Internal:
-		env.Logger.Fatalw("Internal error during grpc request",
+		env.Logger.Errorw("Internal error during grpc request",
 			"err", status.Convert(err).Err(),
 		)
 		return StatusData{
@@ -22,7 +22,7 @@ func handleGeneralGrpcError(env *Env, err error) error {
 			},
 		}
 	default:
-		env.Logger.Fatalw("Unknown error during grpc request",
+		env.Logger.Errorw("Unknown error during grpc request",
 			"err", status.Convert(err).Err(),
 		)
 		return StatusData{
@@ -47,7 +47,7 @@ func handleGetOneUserGrpcError(env *Env, err error) error {
 			},
 		}
 	case codes.Internal:
-		env.Logger.Fatalw("Internal error during grpc request",
+		env.Logger.Errorw("Internal error during grpc request",
 			"grpc", "user",
 			"err", status.Convert(err).Err(),
 		)
@@ -58,7 +58,7 @@ func handleGetOneUserGrpcError(env *Env, err error) error {
 			},
 		}
 	default:
-		env.Logger.Fatalw("Unknown error during grpc request",
+		env.Logger.Errorw("Unknown error during grpc request",
 			"grpc", "user",
 			"err", status.Convert(err).Err(),
 		)
