@@ -33,17 +33,13 @@ func setAuthCookies(w http.ResponseWriter, tokenString string) {
 func removeAuthCookies(w http.ResponseWriter, r *http.Request) {
 	signature, err := r.Cookie("signature")
 	if err == nil {
-		signature.Expires = time.Now().AddDate(0, 0, -1)
-		signature.Domain = ".jackal.online"
-		signature.Path = "/"
+		signature.Expires = time.Now().AddDate(-10, 0, 0)
 		http.SetCookie(w, signature)
 	}
 
 	headerPayload, err := r.Cookie("header.payload")
 	if err == nil {
-		headerPayload.Expires = time.Now().AddDate(0, 0, -1)
-		signature.Domain = ".jackal.online"
-		signature.Path = "/"
+		headerPayload.Expires = time.Now().AddDate(-10, 0, 0)
 		http.SetCookie(w, headerPayload)
 	}
 }
