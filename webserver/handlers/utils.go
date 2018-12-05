@@ -4,30 +4,7 @@ import (
 	"net/http"
 	"strings"
 	"time"
-
-	"github.com/go-park-mail-ru/2018_2_LSP_USER_GRPC/user_proto"
 )
-
-func extractFields(u user_proto.User, fieldsToReturn []string) map[string]interface{} {
-	answer := map[string]interface{}{}
-	for _, f := range fieldsToReturn {
-		switch f {
-		case "id":
-			answer["id"] = u.ID
-		case "firstname":
-			answer["firstname"] = u.FirstName
-		case "lastname":
-			answer["lastname"] = u.LastName
-		case "email":
-			answer["email"] = u.Email
-		case "username":
-			answer["username"] = u.Username
-		case "avatar":
-			answer["avatar"] = u.Avatar
-		}
-	}
-	return answer
-}
 
 func setAuthCookies(w http.ResponseWriter, tokenString string) {
 	firstDot := strings.Index(tokenString, ".") + 1
@@ -38,6 +15,7 @@ func setAuthCookies(w http.ResponseWriter, tokenString string) {
 		Expires: time.Now().Add(30 * time.Minute),
 		Secure:  true,
 		Domain:  ".jackal.online",
+		Path:    "/",
 	}
 	cookieSignature := http.Cookie{
 		Name:     "signature",
@@ -46,6 +24,7 @@ func setAuthCookies(w http.ResponseWriter, tokenString string) {
 		Secure:   true,
 		HttpOnly: true,
 		Domain:   ".jackal.online",
+		Path:     "/",
 	}
 	http.SetCookie(w, &cookieHeaderPayload)
 	http.SetCookie(w, &cookieSignature)
@@ -55,12 +34,16 @@ func removeAuthCookies(w http.ResponseWriter, r *http.Request) {
 	signature, err := r.Cookie("signature")
 	if err == nil {
 		signature.Expires = time.Now().AddDate(0, 0, -1)
+		signature.Domain = ".jackal.online"
+		signature.Path = "/"
 		http.SetCookie(w, signature)
 	}
 
 	headerPayload, err := r.Cookie("header.payload")
 	if err == nil {
 		headerPayload.Expires = time.Now().AddDate(0, 0, -1)
+		signature.Domain = ".jackal.online"
+		signature.Path = "/"
 		http.SetCookie(w, headerPayload)
 	}
 }
