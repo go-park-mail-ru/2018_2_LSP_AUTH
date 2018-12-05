@@ -36,6 +36,7 @@ func removeAuthCookies(w http.ResponseWriter, r *http.Request) {
 		signature.Expires = time.Unix(0, 0)
 		signature.Path = "/"
 		signature.Value = ""
+		signature.Domain = ".jackal.online"
 		http.SetCookie(w, signature)
 	}
 
@@ -44,6 +45,7 @@ func removeAuthCookies(w http.ResponseWriter, r *http.Request) {
 		headerPayload.Expires = time.Unix(0, 0)
 		headerPayload.Path = "/"
 		headerPayload.Value = ""
+		headerPayload.Domain = ".jackal.online"
 		http.SetCookie(w, headerPayload)
 	}
 }
