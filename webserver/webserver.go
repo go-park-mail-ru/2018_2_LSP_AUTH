@@ -59,7 +59,10 @@ func Run(addr string) {
 
 	handlersMap := routes.Get()
 	for URL, h := range handlersMap {
-		http.Handle(URL, handlers.Handler{env, h})
+		http.Handle(URL, handlers.Handler{
+			Env: env,
+			H:   h,
+		})
 	}
 
 	log.Fatal(http.ListenAndServe(addr, nil))
