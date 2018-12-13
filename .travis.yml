@@ -5,6 +5,7 @@ matrix:
   - go: 1.x
 before_install:
 - go get github.com/mitchellh/gox
+- sudo apt-get install -qq sshpass
 install:
 - 
 script:
