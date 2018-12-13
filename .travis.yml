@@ -3,15 +3,6 @@ sudo: false
 matrix:
   include:
   - go: 1.x
-    env: LATEST=true
-  - go: 1.7.x
-  - go: 1.8.x
-  - go: 1.9.x
-  - go: 1.10.x
-  - go: 1.11.x
-  - go: tip
-  allow_failures:
-  - go: tip
 before_install:
 - go get github.com/mitchellh/gox
 install:
@@ -27,8 +18,8 @@ deploy:
   api_key:
     secure: pGHsgcGpc9Q7UQoKdUuNNLzio7b4fi6Akc/di1rjDyG/800kh6X2EaNAfd12mkSWludlv0Zj2WZnQpQvorNOoDNnQgU/5KxdFFBz7qRXIjk0IV7iiOzHVVqPBftCrqhBWcfB+nOG5S1nY9QUtYbVfJcoxrShohW2xNc0C7CAFSCXvByHcD/ovWygAvdHxEGyfywC1sjomHY1NJvMk5kNtNJ1twur2S0VbE5+d+M9eqnlHkhAhMhOgCpyYS7Egu2Q2TPOU12kO6uGCC8Gtsru+LHAhRGQHAMUCB9gHJM3+MKknnAfm+Q2JELGUY7flR/KluII51AejN8oq7WMGi36ZQunbyRihs1yBFDmPl9iRESoBEAI+wE0gTk9WqCOViaAiOsoXzIwYjaacJ81cfU3kEAeOU3w88S5N86PfSxri7/uG77eD4GizjqiZJ9JFA2QOzZCeIU5icnK75/URoxywZ1tXFZFsA2X4d5NaelW0hLEdXrC6fAB5+Qo8/NsTuHV8+PjKGbZ7Sm2avqTQ2nJSNZeur2GUh4bfMsw/MsD9ysYpzkthc5PsCH+Dtfzskqg1scgzYy2wTkkt4u9xU6W/iuB84NTXLOn94PQARG83wrIafDlaEgjpBJMMN3e/prr3P8Q+hf7N29ko+CE5RytjW1nwW7+Xkn/iRPxNoyHDoU=
   file:
-    - logshare.windows.amd64.exe
-    - logshare.darwin.amd64
-    - logshare.linux.amd64
+    - auth.windows.amd64.exe
+    - auth.darwin.amd64
+    - auth.linux.amd64
   on:
     repo: go-park-mail-ru/2018_2_LSP_AUTH
