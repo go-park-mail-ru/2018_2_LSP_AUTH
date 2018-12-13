@@ -1,20 +1,34 @@
 language: go
-go:
-- 1.11
-before_script:
-- sudo apt-get install -qq sshpass
-script: 
-after_success:
-- sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST rm -r ~/server/auth/*
-- sshpass -p $SSH_PASS scp -rp -o stricthostkeychecking=no * $SSH_USER@$SSH_HOST:~/server/auth
-- sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST docker
-  build -t auth-server ~/server/auth 
-- sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST docker stop auth 
-- sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST docker run
-  --publish 6060:8080 -d --name auth --link auth-grpc:auth-grpc --link user-grpc:user-grpc
-  --rm auth-server
-env:
-  global:
-  - secure: gJapTQuaVnTEyEN4yzjdIHx1w2qkmCzfLG/hWA6NhWMnkId9L8ViXe04iY73SirjiKQP2avVehGQ3hU1JbP4waHu0h6Hr5BHX07CM5xQpapkqaUCavtr++rVSxvGMe1rLpeXBGj/4HCVDV7bAvaNYTk06vcEcuoJEOmbyHFrAHCntGYRZNB6bbzRw5wG4sxkZau7NxqjT6F92KMqKFfBrKrsRVR7CY0Ovj69Ht2c2wLQjzBvDo8HpK7mUe2lMPCNv/9hZV5RwNXIfJca7kJjlv6iExg76GanMQBNlDTpsMx35paaNowzUNwKI4tdGI5t/z5gWVImENRGukCvJKKPQH8H2odaSc29GMIMhFDin1xQumB71KKQ4qyFXVVNhMWfwyx1p6WCsyyi+mJkftiXig8DjLJ8aWRZWWv2rcFwfFkxkqKn1EovhJUEbG+ohqEAYEEWW5tQn4v9sThskHWRIBKRL7DpAkhbVI0oVPB8f+yzkoq+JNZMvkSUAAejRq7gZdP1JuKjon58QEZNOMoTqIv6OUkOrciaVwf2iCzrADfKeL9UxboPlNaUYvTdAuqf+18v5Q38TNtnEEy1gKMstNpGm0SrWuUkSjvkc60KAL3ns7ODU3/wqlh+LKxNtUvDjmvjOSBibFJydaZJws/F8L6DVT0e1ViXWLDh1X0k7ms=
-  - secure: XoUDmrNzcvEdq3BnB5B2tAS7IkGtVYRjBwUfnipn4b/T5ZLhoS0XqdD/jXGaqt4x9eHZK4dLSYcAz8T5VonBtvQG70fBwoXvlAq+oW0Nw6Y1SHlAiDIug9NMPluGu5zJ5CjinLocJ3hIwLF6UyI5OWZiqjH59QQm+3mvn0zUQq/MyJc0Gze5jjOcGF75YsvOO17kY3d6nxeTm5LvRpe2ycLZhZrC0MGzw3XNx0ZlYuFZjdT/F/FCL6Yn11D+XyCofjdZrIoPhs23SKxI8tsnWEFjfgSYrGm37mRjSUC1SdckKD54SjDLvVzuZHE5Aj0aVD0u35zJaaGPeReXJN7nJhHfnVUOKSsz8GNqhB2B2+ErBl29YcmadQQ3nwGez9XqGYrz0jljQpL/wpc5Ep/9T6G3RUbBqfXTTwzazZWclAuh1H8v9uog4Ge+4x41ALZqhbeyxfEzg4FMkcJU5loTRK85Ff0ucR2IrRvdjVAa3drKm6iZ9J2YjAzXiTj1hMjkr7wTBr2mH4E69dJe6Hrwb3f2HLVn89k9ntMR7kMhYAe+eID78tCfkCBevySyezpgnz5Pk/EZcpkCMSj+uZCggWhKjAPJ9neCOuHeP/MMVWqxhJ4H6ls08zwciNB4KstRR+IqQxaZHrPmE3k4WJE1bliFsfRS+WQwMe7Gc6ctxXM=
-  - secure: iiFcHyg87YlsXXRUjkeEw2tn5zN0xW2BA/A9PxfBQkt5a14pNuAhpA9LDN2Fm6BsUCtCMC41oRvb6lRKaEIAwp1bGWKslAG4hXrxXmcLcjorRPNO5YlO9uqZrhp6yWQIKz1x5uLbKpKM5WWWBgtdDnFXlqn6YaeeU0PfNKH4wjSZ4ylZ9CE66Qx3eh36IMyVsjhiAyf8ogAedhbHjt0qpeizfG0HV6NuuVWye062ZT7ZLGgdSkwgWg3k6FuQXCmWL+E+Qe/ShIHexf1rOf7VOqsp1Is1RlcAv9D6fVIkld1kisbyv9vKS4KvwmF98K9O6c7Oy6hwTKzd2RR45DOI96SS4qTgUUrWHrc8/yq1cSBpJxyv6eGPP9ec+NoBYKRtj8bM3+qUaYlGA5hOJrtIvADwdrni5XtRubvTRuEwd07lUNuoB0UzH9f5WQnMhu9FmYtmrseZOb1zyqX5qu8s2EqwKY2uZR7+BlRuQT/RUJMxpnzUJBxYESHYjIRZu6oL8U3v0yqLx7/9IypuN95ufzLDcE8WrcpnFbJf9OiNL3vJ7MSA1NjhMQn97cPv5Jj7Yi/dIvJb/FDMJTWEccm7C+y3eM8l19App/W7YUjyrC/HGr/vBcBel5COAFfpqua6PGlWRyQSdYsobRlIbGFvtdzjhTcnj3HV5Joa1lub7bg=
+sudo: false
+matrix:
+  include:
+  - go: 1.x
+    env: LATEST=true
+  - go: 1.7.x
+  - go: 1.8.x
+  - go: 1.9.x
+  - go: 1.10.x
+  - go: 1.11.x
+  - go: tip
+  allow_failures:
+  - go: tip
+before_install:
+- go get github.com/mitchellh/gox
+install:
+- 
+script:
+- go get -t -v ./...
+- go vet $(go list ./... | grep -v /vendor/)
+- go test -v -race ./...
+- if [ "${LATEST}" = "true" ]; then gox -os="linux darwin windows" -arch="amd64" -output="auth.."
+  -ldflags "-X main.Rev=`git rev-parse --short HEAD`" -verbose ./...; fi
+deploy:
+  provider: releases
+  api_key:
+    secure: pGHsgcGpc9Q7UQoKdUuNNLzio7b4fi6Akc/di1rjDyG/800kh6X2EaNAfd12mkSWludlv0Zj2WZnQpQvorNOoDNnQgU/5KxdFFBz7qRXIjk0IV7iiOzHVVqPBftCrqhBWcfB+nOG5S1nY9QUtYbVfJcoxrShohW2xNc0C7CAFSCXvByHcD/ovWygAvdHxEGyfywC1sjomHY1NJvMk5kNtNJ1twur2S0VbE5+d+M9eqnlHkhAhMhOgCpyYS7Egu2Q2TPOU12kO6uGCC8Gtsru+LHAhRGQHAMUCB9gHJM3+MKknnAfm+Q2JELGUY7flR/KluII51AejN8oq7WMGi36ZQunbyRihs1yBFDmPl9iRESoBEAI+wE0gTk9WqCOViaAiOsoXzIwYjaacJ81cfU3kEAeOU3w88S5N86PfSxri7/uG77eD4GizjqiZJ9JFA2QOzZCeIU5icnK75/URoxywZ1tXFZFsA2X4d5NaelW0hLEdXrC6fAB5+Qo8/NsTuHV8+PjKGbZ7Sm2avqTQ2nJSNZeur2GUh4bfMsw/MsD9ysYpzkthc5PsCH+Dtfzskqg1scgzYy2wTkkt4u9xU6W/iuB84NTXLOn94PQARG83wrIafDlaEgjpBJMMN3e/prr3P8Q+hf7N29ko+CE5RytjW1nwW7+Xkn/iRPxNoyHDoU=
+  file:
+    - logshare.windows.amd64.exe
+    - logshare.darwin.amd64
+    - logshare.linux.amd64
+  on:
+    repo: go-park-mail-ru/2018_2_LSP_AUTH
