@@ -13,6 +13,14 @@ script:
 - go test -v -race ./...
 - gox -os="linux darwin windows" -arch="amd64" -output="auth.{{.OS}}.{{.Arch}}" 
   -ldflags "-X main.Rev=`git rev-parse --short HEAD`" -verbose ./...
+after_success:
+- sshpass -p $SSH_PASS scp -rp -o stricthostkeychecking=no auth.linux.amd64 Dockerfile $SSH_USER@$SSH_HOST:~/server/auth
+- sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST docker
+  build -t auth-server ~/server/auth 
+- sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST docker stop auth 
+- sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST docker run
+  --publish 6060:8080 -d --name auth --link auth-grpc:auth-grpc --link user-grpc:user-grpc
+  --rm auth-server
 deploy:
   provider: releases
   api_key:
