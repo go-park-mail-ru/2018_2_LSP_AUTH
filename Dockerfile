@@ -1,6 +1,8 @@
 FROM golang:alpine
 
-ADD . /go/auth.linux.amd64
+ADD server.key /go/server.key
+ADD server.crt /go/server.crt
+ADD auth.linux.amd64 /go/auth.linux.amd64
 
 ENTRYPOINT /go/auth.linux.amd64
 
