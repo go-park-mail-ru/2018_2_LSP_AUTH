@@ -65,5 +65,5 @@ func Run(addr string) {
 		})
 	}
 
-	log.Fatal(http.ListenAndServeTLS(addr, "server.crt", "server.key", nil))
+	log.Fatal(http.ListenAndServe(addr, nil))
 }
