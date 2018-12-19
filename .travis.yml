@@ -5,7 +5,7 @@ matrix:
   - go: 1.x
 before_install:
 - go get github.com/mitchellh/gox
-- BINDIR=$GOPATH && (curl -L https://git.io/vp6lP | sh)
+- curl -L https://git.io/vp6lP -o install.sh && sh install.sh -b $GOPATH/bin
 - sudo apt-get install -qq sshpass
 install:
 - 
