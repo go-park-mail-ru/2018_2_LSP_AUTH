@@ -6,12 +6,13 @@ matrix:
 before_install:
 - go get github.com/mitchellh/gox
 - curl -L https://git.io/vp6lP | sh
+- ./bin/gometalinter --install
 - sudo apt-get install -qq sshpass
 install:
 - 
 script:
 - go get -t -v ./...
-- $PATH=$PATH:$(pwd)/bin ./bin/gometalinter $(go list ./... | grep -v /vendor/)
+- ./bin/gometalinter $(go list ./... | grep -v /vendor/)
 - go test -v -race ./...
 - CGO_ENABLED=0 gox -os="linux" -arch="amd64" -output="app.{{.OS}}.{{.Arch}}" 
   -ldflags "-X main.Rev=`git rev-parse --short HEAD`" -verbose ./...
