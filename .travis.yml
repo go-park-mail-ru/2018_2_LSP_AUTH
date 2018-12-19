@@ -12,10 +12,10 @@ script:
 - go get -t -v ./...
 - go vet $(go list ./... | grep -v /vendor/)
 - go test -v -race ./...
-- CGO_ENABLED=0 gox -os="linux darwin windows" -arch="amd64" -output="auth.{{.OS}}.{{.Arch}}" 
+- CGO_ENABLED=0 gox -os="linux" -arch="amd64" -output="auth.{{.OS}}.{{.Arch}}" 
   -ldflags "-X main.Rev=`git rev-parse --short HEAD`" -verbose ./...
 after_success:
-- sshpass -p $SSH_PASS scp -rp -o stricthostkeychecking=no auth.linux.amd64 $SSH_USER@$SSH_HOST:~/server/auth
+- sshpass -p $SSH_PASS scp -rp -o stricthostkeychecking=no auth.linux.amd64 Dockerfile $SSH_USER@$SSH_HOST:~/server/auth
 - sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST docker
   build -t auth-server ~/server/auth 
 - sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST docker stop auth 
@@ -28,8 +28,6 @@ deploy:
     secure: pGHsgcGpc9Q7UQoKdUuNNLzio7b4fi6Akc/di1rjDyG/800kh6X2EaNAfd12mkSWludlv0Zj2WZnQpQvorNOoDNnQgU/5KxdFFBz7qRXIjk0IV7iiOzHVVqPBftCrqhBWcfB+nOG5S1nY9QUtYbVfJcoxrShohW2xNc0C7CAFSCXvByHcD/ovWygAvdHxEGyfywC1sjomHY1NJvMk5kNtNJ1twur2S0VbE5+d+M9eqnlHkhAhMhOgCpyYS7Egu2Q2TPOU12kO6uGCC8Gtsru+LHAhRGQHAMUCB9gHJM3+MKknnAfm+Q2JELGUY7flR/KluII51AejN8oq7WMGi36ZQunbyRihs1yBFDmPl9iRESoBEAI+wE0gTk9WqCOViaAiOsoXzIwYjaacJ81cfU3kEAeOU3w88S5N86PfSxri7/uG77eD4GizjqiZJ9JFA2QOzZCeIU5icnK75/URoxywZ1tXFZFsA2X4d5NaelW0hLEdXrC6fAB5+Qo8/NsTuHV8+PjKGbZ7Sm2avqTQ2nJSNZeur2GUh4bfMsw/MsD9ysYpzkthc5PsCH+Dtfzskqg1scgzYy2wTkkt4u9xU6W/iuB84NTXLOn94PQARG83wrIafDlaEgjpBJMMN3e/prr3P8Q+hf7N29ko+CE5RytjW1nwW7+Xkn/iRPxNoyHDoU=
   skip_cleanup: true
   file:
-    - auth.windows.amd64.exe
-    - auth.darwin.amd64
     - auth.linux.amd64
   on:
     repo: go-park-mail-ru/2018_2_LSP_AUTH
