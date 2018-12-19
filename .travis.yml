@@ -5,6 +5,7 @@ matrix:
   - go: 1.x
 before_install:
 - go get github.com/mitchellh/gox
+- go get github.com/alecthomas/gometalinter
 - sudo apt-get install -qq sshpass
 install:
 - 
