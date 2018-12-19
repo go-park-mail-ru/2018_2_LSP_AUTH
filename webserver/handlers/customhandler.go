@@ -58,8 +58,20 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		switch e := err.(type) {
 		case StatusData:
 			w.WriteHeader(e.Status())
-			jsonData, _ := e.GetJSONData()
-			w.Write(jsonData)
+			jsonData, err := e.GetJSONData()
+			if err != nil {
+				h.Logger.Errorw("Can't get JSON data from StatusCode",
+					"error", e,
+				)
+				return
+			}
+			_, err = w.Write(jsonData)
+			if err != nil {
+				h.Logger.Errorw("Can't write JSON data to response body",
+					"data", jsonData,
+				)
+				return
+			}
 			httpReqs.WithLabelValues(strconv.Itoa(e.Status()), r.Method).Inc()
 		default:
 			http.Error(w, http.StatusText(http.StatusInternalServerError),
